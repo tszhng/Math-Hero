@@ -1,0 +1,18 @@
+{
+  "name": "數學勇者大冒險",
+  "short_name": "數學勇者",
+  "description": "專為小學生設計的冒險數學闖關遊戲",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#2C3E50",
+  "theme_color": "#FF8E53",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
