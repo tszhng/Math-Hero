@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B6B" />
+      <stop offset="100%" stop-color="#FF8E53" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#bg)"/>
+  <!-- 盾牌底 -->
+  <path d="M256 90 L380 140 C380 270 256 380 256 410 C256 380 132 270 132 140 Z" fill="#FFFFFF" opacity="0.95"/>
+  <path d="M256 115 L360 155 C360 260 256 355 256 380 C256 355 152 260 152 155 Z" fill="#FFF9E6"/>
+  <!-- 數學符號 -->
+  <text x="256" y="270" font-family="Arial, sans-serif" font-size="120" font-weight="900" fill="#FF5722" text-anchor="middle">＋</text>
+  <text x="210" y="335" font-family="Arial, sans-serif" font-size="75" font-weight="900" fill="#4CAF50" text-anchor="middle">×</text>
+  <text x="302" y="335" font-family="Arial, sans-serif" font-size="75" font-weight="900" fill="#2196F3" text-anchor="middle">÷</text>
+</svg>
