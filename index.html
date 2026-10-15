@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>數學勇者大冒險 - 國小數學啟智學習樂園</title>
+
+  <!-- PWA & Mobile Web App Meta Tags -->
+  <meta name="theme-color" content="#FF8811">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="數學勇者">
+  <meta name="description" content="專為小學生量身打造的冒險算術闖關遊戲，加減乘除、分數小數通通搞定！">
+
+  <!-- Embedded High-Resolution Vector App Icon (No external image files needed) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23FF6B6B'/%3E%3Cstop offset='100%25' stop-color='%23FF8E53'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='120' fill='url(%23g)'/%3E%3Cpath d='M256 90 L380 140 C380 270 256 380 256 410 C256 380 132 270 132 140 Z' fill='%23FFFFFF' opacity='0.95'/%3E%3Cpath d='M256 115 L360 155 C360 260 256 355 256 380 C256 355 152 260 152 155 Z' fill='%23FFF9E6'/%3E%3Ctext x='256' y='270' font-family='sans-serif' font-size='120' font-weight='900' fill='%23FF5722' text-anchor='middle'%3E%EF%BC%8B%3C/text%3E%3Ctext x='210' y='335' font-family='sans-serif' font-size='75' font-weight='900' fill='%234CAF50' text-anchor='middle'%3E%C3%97%3C/text%3E%3Ctext x='302' y='335' font-family='sans-serif' font-size='75' font-weight='900' fill='%232196F3' text-anchor='middle'%3E%C3%B7%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23FF6B6B'/%3E%3Cstop offset='100%25' stop-color='%23FF8E53'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='120' fill='url(%23g)'/%3E%3Cpath d='M256 90 L380 140 C380 270 256 380 256 410 C256 380 132 270 132 140 Z' fill='%23FFFFFF' opacity='0.95'/%3E%3Cpath d='M256 115 L360 155 C360 260 256 355 256 380 C256 355 152 260 152 155 Z' fill='%23FFF9E6'/%3E%3Ctext x='256' y='270' font-family='sans-serif' font-size='120' font-weight='900' fill='%23FF5722' text-anchor='middle'%3E%EF%BC%8B%3C/text%3E%3Ctext x='210' y='335' font-family='sans-serif' font-size='75' font-weight='900' fill='%234CAF50' text-anchor='middle'%3E%C3%97%3C/text%3E%3Ctext x='302' y='335' font-family='sans-serif' font-size='75' font-weight='900' fill='%232196F3' text-anchor='middle'%3E%C3%B7%3C/text%3E%3C/svg%3E">
+
+  <!-- Manifest Link (points to manifest.json if present, plus automatic script fallback) -->
+  <link rel="manifest" id="manifestLink" href="./manifest.json">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Fredoka & Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Noto Sans TC"', 'Fredoka', 'sans-serif'],
+            bubble: ['Fredoka', '"Noto Sans TC"', 'cursive'],
+          },
+          colors: {
+            brand: {
+              yellow: '#FFD12E',
+              orange: '#FF8811',
+              pink: '#FF4785',
+              purple: '#7952F5',
+              blue: '#2B8CFF',
+              green: '#2AD283',
+              dark: '#2D3748',
+              card: '#FFFFFF'
+            }
+          },
+          boxShadow: {
+            'comic': '0 8px 0px rgba(0,0,0,0.15)',
+            'comic-sm': '0 4px 0px rgba(0,0,0,0.14)',
+            'comic-active': '0 1px 0px rgba(0,0,0,0.15)',
+            'glow-yellow': '0 0 25px rgba(255, 209, 46, 0.65)',
+            'glow-purple': '0 0 25px rgba(121, 82, 245, 0.5)',
+          },
+          animation: {
+            'bounce-soft': 'bounceSoft 2s infinite ease-in-out',
+            'float': 'floating 3s ease-in-out infinite',
+            'shake': 'shake 0.4s cubic-bezier(.36,.07,.19,.97) both',
+          },
+          keyframes: {
+            bounceSoft: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-8px)' },
+            },
+            floating: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(-10px) rotate(2deg)' },
+            },
+            shake: {
+              '10%, 90%': { transform: 'translate3d(-2px, 0, 0)' },
+              '20%, 80%': { transform: 'translate3d(4px, 0, 0)' },
+              '30%, 50%, 70%': { transform: 'translate3d(-6px, 0, 0)' },
+              '40%, 60%': { transform: 'translate3d(6px, 0, 0)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* Comic Button Styles */
+    .btn-comic {
+      transition: all 0.12s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-comic:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0px rgba(0,0,0,0.18) !important;
+    }
+
+    /* Bubble item */
+    .bubble-item {
+      transition: transform 0.15s ease, opacity 0.2s;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .bubble-item:hover {
+      transform: scale(1.08);
+    }
+
+    /* Monster breathing */
+    .monster-animate {
+      animation: monsterBreathe 2.4s ease-in-out infinite;
+    }
+    @keyframes monsterBreathe {
+      0%, 100% { transform: scale(1) translateY(0); }
+      50% { transform: scale(1.04, 0.96) translateY(-5px); }
+    }
+    
+    .attack-slash {
+      animation: slashEffect 0.35s ease-out forwards;
+    }
+    @keyframes slashEffect {
+      0% { opacity: 0; transform: scale(0.5) rotate(-30deg); }
+      50% { opacity: 1; transform: scale(1.3) rotate(0deg); }
+      100% { opacity: 0; transform: scale(1.6) rotate(30deg); }
+    }
+
+    #confettiCanvas {
+      pointer-events: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-sky-100 via-indigo-50 to-amber-50 min-h-screen text-slate-800 antialiased font-sans flex flex-col justify-between selection:bg-brand-yellow selection:text-brand-dark">
+
+  <!-- Fullscreen Particle / Confetti Canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- PWA INSTALL BANNER (Appears if installable on Chrome / Edge / Android) -->
+  <div id="pwaInstallBanner" class="hidden bg-indigo-600 text-white px-4 py-2 text-xs sm:text-sm font-bold flex items-center justify-between sticky top-0 z-50 shadow-md">
+    <div class="flex items-center gap-2">
+      <span class="text-xl">📲</span>
+      <span>把「數學勇者大冒險」安裝至桌面，離線全螢幕更好玩！</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="PWAInstaller.install()" class="bg-amber-400 hover:bg-amber-300 text-amber-950 px-3 py-1 rounded-lg text-xs font-black shadow-comic-sm">
+        立刻安裝
+      </button>
+      <button onclick="PWAInstaller.dismiss()" class="text-white/80 hover:text-white text-base px-1">
+        ✕
+      </button>
+    </div>
+  </div>
+
+  <!-- TOP NAVIGATION / STATUS BAR -->
+  <header class="w-full bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b-4 border-indigo-100 shadow-sm px-3 py-2 sm:px-6">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      
+      <!-- Logo & Hero Info -->
+      <div class="flex items-center gap-2 sm:gap-3 cursor-pointer" onclick="App.navigate('home')">
+        <div class="w-11 h-11 sm:w-12 sm:h-12 bg-gradient-to-tr from-brand-yellow to-brand-orange rounded-2xl flex items-center justify-center shadow-comic-sm text-2xl border-2 border-white">
+          <span id="navHeroAvatar">🦊</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-xl font-black tracking-tight text-indigo-900 font-bubble">數學勇者大冒險</h1>
+            <span id="navGradeBadge" class="bg-indigo-100 text-indigo-700 text-xs px-2 py-0.5 rounded-full font-bold border border-indigo-200">初小</span>
+          </div>
+          <div class="flex items-center gap-3 text-xs font-bold text-slate-500">
+            <span>等級 <span id="navHeroLevel" class="text-indigo-600 font-black">Lv.1</span></span>
+            <div class="w-16 sm:w-24 bg-slate-200 h-2 rounded-full overflow-hidden">
+              <div id="navExpBar" class="bg-gradient-to-r from-emerald-400 to-green-500 h-full rounded-full transition-all duration-300" style="width: 20%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Currency & Settings -->
+      <div class="flex items-center gap-2 sm:gap-4">
+        <!-- Coins -->
+        <div class="flex items-center gap-1.5 bg-amber-50 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full border-2 border-amber-300 shadow-inner">
+          <span class="text-amber-500 text-lg">🪙</span>
+          <span id="navCoins" class="font-black text-amber-700 text-sm sm:text-base font-bubble">0</span>
+        </div>
+
+        <!-- Stars -->
+        <div class="flex items-center gap-1.5 bg-yellow-50 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full border-2 border-yellow-300 shadow-inner">
+          <span class="text-yellow-500 text-lg">⭐</span>
+          <span id="navStars" class="font-black text-yellow-700 text-sm sm:text-base font-bubble">0</span>
+        </div>
+
+        <!-- Sound Toggle -->
+        <button id="soundBtn" onclick="SoundEngine.toggleMute()" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 flex items-center justify-center text-slate-700 text-xl btn-comic shadow-comic-sm">
+          <i class="ph-bold ph-speaker-high" id="soundIcon"></i>
+        </button>
+
+        <!-- Achievements Button -->
+        <button onclick="App.openBadgesModal()" class="w-10 h-10 rounded-xl bg-purple-100 hover:bg-purple-200 border-2 border-purple-300 flex items-center justify-center text-purple-700 text-xl btn-comic shadow-comic-sm" title="我的成就榮譽徽章">
+          <i class="ph-bold ph-medal"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <main id="mainContainer" class="max-w-5xl w-full mx-auto p-4 sm:p-6 flex-grow flex flex-col justify-center">
+
+    <!-- VIEW 1: HOME DASHBOARD -->
+    <div id="viewHome" class="space-y-6">
+      
+      <!-- Welcome Hero Banner -->
+      <div class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-3xl p-5 sm:p-8 text-white relative overflow-hidden shadow-comic border-4 border-white">
+        <div class="absolute -right-8 -bottom-8 w-48 h-48 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
+        <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="text-center md:text-left space-y-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-black uppercase tracking-wider">
+              <span>🌟 今日挑戰任務進行中</span>
+            </div>
+            <h2 class="text-2xl sm:text-4xl font-black font-bubble drop-shadow">歡迎來到算術冒險王國！</h2>
+            <p class="text-indigo-100 text-sm sm:text-base font-medium max-w-lg">
+              挑選你的冒險年級，勇闖怪物塔、在限時挑戰中超越自我，用數學力量守護王國！
+            </p>
+          </div>
+
+          <!-- Hero Avatar Picker & Summary -->
+          <div class="flex items-center gap-4 bg-white/15 backdrop-blur-md p-3.5 rounded-2xl border-2 border-white/30">
+            <div class="text-center">
+              <button onclick="App.changeAvatar()" class="text-4xl sm:text-5xl bg-white rounded-2xl p-2.5 shadow-comic-sm hover:scale-105 transition active:scale-95 block border-2 border-indigo-200" title="點擊更換勇者角色">
+                <span id="heroAvatarDisplay">🦊</span>
+              </button>
+              <span class="text-[10px] text-white/90 font-bold mt-1 block">換角色</span>
+            </div>
+            <div class="space-y-1">
+              <div class="flex items-center gap-1.5">
+                <span class="font-black text-white text-base" id="heroNameText">算術小勇者</span>
+                <span class="text-xs bg-amber-400 text-amber-900 font-black px-2 py-0.5 rounded-full" id="heroTitleBadge">初級魔法學徒</span>
+              </div>
+              <div class="text-xs text-indigo-100 font-medium">累計擊倒魔物: <span id="statMonstersBeaten" class="font-bold text-yellow-300">0</span> 隻</div>
+              <div class="text-xs text-indigo-100 font-medium">答對總題數: <span id="statCorrectTotal" class="font-bold text-yellow-300">0</span> 題</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grade & Difficulty Selector -->
+      <div class="bg-white rounded-2xl p-4 sm:p-5 border-4 border-indigo-100 shadow-comic-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div class="flex items-center gap-2">
+            <span class="text-xl text-indigo-600 font-black">🎒</span>
+            <h3 class="font-black text-indigo-950 text-base sm:text-lg">選擇學習年級難度</h3>
+          </div>
+          <span class="text-xs text-slate-500 font-medium">題目內容隨時依年級自動調整</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <!-- Grade P1-P2 -->
+          <button onclick="App.setGrade('p12')" id="gradeCard_p12" class="grade-selector text-left p-4 rounded-2xl border-3 border-indigo-500 bg-indigo-50/70 relative transition btn-comic shadow-comic-sm">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">🌱</span>
+              <span class="text-xs font-black bg-indigo-200 text-indigo-800 px-2 py-0.5 rounded-full">小一 ~ 小二</span>
+            </div>
+            <h4 class="font-black text-indigo-900 mt-2 text-base">初小：加減與數感</h4>
+            <p class="text-xs text-slate-600 mt-1">20/100以內加減、看圖數數、數值比大小</p>
+          </button>
+
+          <!-- Grade P3-P4 -->
+          <button onclick="App.setGrade('p34')" id="gradeCard_p34" class="grade-selector text-left p-4 rounded-2xl border-3 border-slate-200 bg-white relative transition btn-comic shadow-comic-sm hover:border-indigo-300">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">⚡</span>
+              <span class="text-xs font-black bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">小三 ~ 小四</span>
+            </div>
+            <h4 class="font-black text-slate-800 mt-2 text-base">中小：乘除與混合運算</h4>
+            <p class="text-xs text-slate-600 mt-1">九九乘法表、基礎除法、兩步四則計算</p>
+          </button>
+
+          <!-- Grade P5-P6 -->
+          <button onclick="App.setGrade('p56')" id="gradeCard_p56" class="grade-selector text-left p-4 rounded-2xl border-3 border-slate-200 bg-white relative transition btn-comic shadow-comic-sm hover:border-indigo-300">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">🔥</span>
+              <span class="text-xs font-black bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full">小五 ~ 小六</span>
+            </div>
+            <h4 class="font-black text-slate-800 mt-2 text-base">高小：四則小數與分數</h4>
+            <p class="text-xs text-slate-600 mt-1">先乘除後加減、簡易分數加減、小數速算</p>
+          </button>
+        </div>
+      </div>
+
+      <!-- GAME MODES SELECTION -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        
+        <!-- Mode 1: 怪物打倒塔 -->
+        <div class="bg-gradient-to-b from-amber-400 to-orange-500 rounded-3xl p-5 text-white border-4 border-white shadow-comic flex flex-col justify-between group hover:-translate-y-1 transition duration-200">
+          <div>
+            <div class="flex justify-between items-start mb-3">
+              <div class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center text-3xl shadow-inner">
+                👾
+              </div>
+              <span class="bg-white/30 text-white font-black text-xs px-2.5 py-1 rounded-full uppercase tracking-wider">RPG冒險</span>
+            </div>
+            <h3 class="text-xl font-black font-bubble">怪物打倒塔</h3>
+            <p class="text-amber-100 text-xs sm:text-sm mt-1 leading-relaxed">
+              答對算術施展魔法攻擊，累積連擊能量召喚必殺技，擊倒萌趣怪物爬塔升級！
+            </p>
+          </div>
+          <button onclick="App.startMode('battle')" class="mt-6 w-full py-3 bg-white text-orange-600 font-black rounded-2xl shadow-comic btn-comic hover:bg-amber-50 flex items-center justify-center gap-2">
+            <span>開始冒險出發</span>
+            <i class="ph-bold ph-sword text-lg"></i>
+          </button>
+        </div>
+
+        <!-- Mode 2: 限時極速挑戰 -->
+        <div class="bg-gradient-to-b from-sky-400 to-blue-600 rounded-3xl p-5 text-white border-4 border-white shadow-comic flex flex-col justify-between group hover:-translate-y-1 transition duration-200">
+          <div>
+            <div class="flex justify-between items-start mb-3">
+              <div class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center text-3xl shadow-inner">
+                ⚡
+              </div>
+              <span class="bg-white/30 text-white font-black text-xs px-2.5 py-1 rounded-full uppercase tracking-wider">60秒極速</span>
+            </div>
+            <h3 class="text-xl font-black font-bubble">限時極速挑戰</h3>
+            <p class="text-sky-100 text-xs sm:text-sm mt-1 leading-relaxed">
+              60秒倒計時算術快打！考驗專注度與速算極限，連擊不中斷獲取超高榮耀評分！
+            </p>
+          </div>
+          <button onclick="App.startMode('speed')" class="mt-6 w-full py-3 bg-white text-blue-600 font-black rounded-2xl shadow-comic btn-comic hover:bg-sky-50 flex items-center justify-center gap-2">
+            <span>進入衝刺模式</span>
+            <i class="ph-bold ph-timer text-lg"></i>
+          </button>
+        </div>
+
+        <!-- Mode 3: 泡泡消除 -->
+        <div class="bg-gradient-to-b from-emerald-400 to-teal-600 rounded-3xl p-5 text-white border-4 border-white shadow-comic flex flex-col justify-between group hover:-translate-y-1 transition duration-200">
+          <div>
+            <div class="flex justify-between items-start mb-3">
+              <div class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center text-3xl shadow-inner">
+                🫧
+              </div>
+              <span class="bg-white/30 text-white font-black text-xs px-2.5 py-1 rounded-full uppercase tracking-wider">趣味益智</span>
+            </div>
+            <h3 class="text-xl font-black font-bubble">泡泡消消樂</h3>
+            <p class="text-emerald-100 text-xs sm:text-sm mt-1 leading-relaxed">
+              點擊擊破漂浮的數字魔法泡泡！尋找相加目標或正確算式答案，手眼並用好歡樂！
+            </p>
+          </div>
+          <button onclick="App.startMode('bubble')" class="mt-6 w-full py-3 bg-white text-teal-700 font-black rounded-2xl shadow-comic btn-comic hover:bg-teal-50 flex items-center justify-center gap-2">
+            <span>戳破泡泡挑戰</span>
+            <i class="ph-bold ph-sparkle text-lg"></i>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- VIEW 2: 怪物打倒塔 (MONSTER BATTLE) -->
+    <div id="viewBattle" class="hidden space-y-4">
+      
+      <!-- Top Battle Status Bar -->
+      <div class="bg-white rounded-2xl p-3 sm:p-4 border-4 border-amber-200 shadow-comic flex items-center justify-between">
+        <button onclick="App.navigate('home')" class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-xs sm:text-sm border-2 border-slate-300 btn-comic flex items-center gap-1">
+          <i class="ph-bold ph-arrow-left"></i> 回大廳
+        </button>
+
+        <div class="flex items-center gap-2 text-center">
+          <span class="text-xs bg-amber-100 text-amber-800 font-black px-2.5 py-1 rounded-full border border-amber-300" id="battleFloorLabel">
+            🏰 冒險塔 第 1 層
+          </span>
+          <span class="text-xs font-bold text-slate-500">連擊: <span id="battleComboText" class="text-orange-500 font-black text-sm">0</span> 連勝 🔥</span>
+        </div>
+
+        <div class="flex items-center gap-1 text-red-500" id="battleHeartsContainer"></div>
+      </div>
+
+      <!-- Arena Battlefield Card -->
+      <div class="bg-gradient-to-b from-sky-200 via-indigo-100 to-amber-100 rounded-3xl p-4 sm:p-6 border-4 border-white shadow-comic relative overflow-hidden min-h-[300px] sm:min-h-[340px] flex flex-col justify-between">
+        
+        <!-- Background Decor -->
+        <div class="absolute top-4 left-6 text-3xl opacity-60 pointer-events-none">☁️</div>
+        <div class="absolute top-10 right-10 text-4xl opacity-50 pointer-events-none">☁️</div>
+        <div class="absolute bottom-2 left-4 text-3xl opacity-30 pointer-events-none">🌲🌲</div>
+        <div class="absolute bottom-2 right-4 text-3xl opacity-30 pointer-events-none">🌲🍄</div>
+
+        <!-- Monster Stage Area -->
+        <div class="relative z-10 flex flex-col items-center justify-center my-auto">
+          
+          <!-- Monster HP Gauge -->
+          <div class="w-64 max-w-full bg-white/80 backdrop-blur-sm p-2 rounded-2xl border-2 border-amber-300 shadow-sm mb-3">
+            <div class="flex justify-between items-center text-xs font-black text-slate-700 mb-1">
+              <span id="battleMonsterName">綠芽史萊姆</span>
+              <span id="battleMonsterHpText">50 / 50</span>
+            </div>
+            <div class="w-full bg-slate-200 h-3 rounded-full overflow-hidden p-0.5">
+              <div id="battleMonsterHpBar" class="bg-gradient-to-r from-red-500 to-rose-400 h-full rounded-full transition-all duration-300" style="width: 100%;"></div>
+            </div>
+          </div>
+
+          <!-- Monster Visual & Slash Animation -->
+          <div class="relative flex items-center justify-center">
+            <div id="battleMonsterSprite" class="text-7xl sm:text-8xl monster-animate select-none drop-shadow-lg transition-transform duration-200">
+              👾
+            </div>
+            <div id="battleSlashFx" class="hidden absolute text-5xl pointer-events-none">
+              ⚔️
+            </div>
+            <!-- Damage Floater -->
+            <div id="battleDamageText" class="hidden absolute -top-8 font-black text-rose-600 text-2xl font-bubble drop-shadow">
+              -30!
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Super Gauge Bar -->
+        <div class="relative z-10 bg-white/90 backdrop-blur-sm rounded-xl p-2 flex items-center justify-between border-2 border-indigo-200 gap-3">
+          <div class="flex items-center gap-1 text-xs font-black text-indigo-900 shrink-0">
+            <span>⚡ 勇者必殺技</span>
+          </div>
+          <div class="flex-grow bg-slate-200 h-2.5 rounded-full overflow-hidden">
+            <div id="battleSuperBar" class="bg-gradient-to-r from-amber-400 to-yellow-300 h-full rounded-full transition-all duration-300" style="width: 0%;"></div>
+          </div>
+          <button id="battleSuperBtn" onclick="BattleMode.triggerSuperAttack()" disabled class="px-2.5 py-1 bg-yellow-400 disabled:opacity-40 disabled:pointer-events-none text-yellow-950 text-xs font-black rounded-lg border border-yellow-500 shadow-comic-sm btn-comic">
+            全魔力釋放!
+          </button>
+        </div>
+
+      </div>
+
+      <!-- MATH QUESTION & CHOICES -->
+      <div class="bg-white rounded-3xl p-5 sm:p-6 border-4 border-indigo-100 shadow-comic">
+        <div class="text-center mb-5">
+          <span class="text-xs font-bold text-indigo-500 uppercase tracking-widest block mb-1">請計算正確答案發動攻擊</span>
+          <div id="battleQuestionText" class="text-3xl sm:text-4xl md:text-5xl font-black font-bubble text-slate-800 tracking-wide py-2">
+            7 × 8 = ?
+          </div>
+          <div id="battleQuestionVisual" class="hidden text-sm text-slate-600 mt-1 font-medium bg-indigo-50 py-1.5 px-3 rounded-xl inline-block"></div>
+        </div>
+
+        <div id="battleOptionsGrid" class="grid grid-cols-2 gap-3 sm:gap-4 max-w-xl mx-auto"></div>
+      </div>
+
+    </div>
+
+    <!-- VIEW 3: 限時極速挑戰 (SPEED BLITZ) -->
+    <div id="viewSpeed" class="hidden space-y-4">
+      
+      <!-- Speed Top Bar -->
+      <div class="bg-white rounded-2xl p-4 border-4 border-sky-200 shadow-comic flex items-center justify-between">
+        <button onclick="SpeedMode.quit()" class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-xs sm:text-sm border-2 border-slate-300 btn-comic flex items-center gap-1">
+          <i class="ph-bold ph-x"></i> 結束挑戰
+        </button>
+
+        <div class="flex items-center gap-2">
+          <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 font-black flex items-center justify-center text-xl font-bubble border border-sky-300" id="speedTimerNum">
+            60
+          </div>
+          <span class="text-xs font-bold text-slate-500 hidden sm:inline">秒剩餘</span>
+        </div>
+
+        <div class="text-right">
+          <div class="text-xs font-bold text-slate-400">目前得分</div>
+          <div id="speedScoreText" class="font-black text-sky-600 font-bubble text-xl sm:text-2xl">0</div>
+        </div>
+      </div>
+
+      <!-- Time Progress Countdown Bar -->
+      <div class="w-full bg-slate-200 h-3 rounded-full overflow-hidden p-0.5 border-2 border-white shadow-inner">
+        <div id="speedTimeBar" class="bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-600 h-full rounded-full transition-all duration-1000 ease-linear" style="width: 100%;"></div>
+      </div>
+
+      <!-- Question Card -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-sky-100 shadow-comic text-center space-y-6">
+        <div class="flex justify-center items-center gap-2">
+          <span class="text-sm bg-sky-100 text-sky-800 font-black px-3 py-1 rounded-full">
+            連擊倍數: <span id="speedMultiplierText" class="text-orange-500 font-bubble text-base">x1.0</span> 🔥
+          </span>
+          <span class="text-xs font-bold text-slate-500">已連續答對 <span id="speedStreakText" class="font-bold text-indigo-600">0</span> 題</span>
+        </div>
+
+        <div id="speedQuestionText" class="text-4xl sm:text-6xl font-black font-bubble text-indigo-950 py-4 tracking-wider">
+          12 + 15 = ?
+        </div>
+
+        <div id="speedOptionsGrid" class="grid grid-cols-2 gap-3 sm:gap-4 max-w-lg mx-auto"></div>
+      </div>
+
+    </div>
+
+    <!-- VIEW 4: 泡泡消消樂 (BUBBLE POP) -->
+    <div id="viewBubble" class="hidden space-y-4">
+      
+      <!-- Bubble Header Bar -->
+      <div class="bg-white rounded-2xl p-4 border-4 border-teal-200 shadow-comic flex items-center justify-between">
+        <button onclick="BubbleMode.quit()" class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-xs sm:text-sm border-2 border-slate-300 btn-comic flex items-center gap-1">
+          <i class="ph-bold ph-arrow-left"></i> 回大廳
+        </button>
+
+        <div class="text-center">
+          <div class="text-xs font-bold text-teal-600 uppercase tracking-widest">任務目標</div>
+          <div id="bubbleMissionPrompt" class="text-sm sm:text-base font-black text-slate-800 font-bubble">
+            點擊相加等於 <span class="text-rose-500 text-lg">10</span> 的兩顆泡泡！
+          </div>
+        </div>
+
+        <div class="text-right">
+          <div class="text-xs font-bold text-slate-400">已消除</div>
+          <div id="bubbleScoreText" class="font-black text-teal-600 font-bubble text-xl">0</div>
+        </div>
+      </div>
+
+      <!-- Bubble Game Arena -->
+      <div class="bg-gradient-to-b from-teal-100 via-sky-50 to-indigo-100 rounded-3xl p-4 border-4 border-white shadow-comic min-h-[440px] relative overflow-hidden flex flex-col justify-between">
+        
+        <!-- Selection Hint Banner -->
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-2.5 mx-auto text-center border-2 border-teal-300 shadow-sm max-w-md w-full z-10 flex items-center justify-around text-xs font-bold text-slate-600">
+          <div>已選泡泡一: <span id="bubbleFirstSelected" class="text-indigo-600 font-black text-base">-</span></div>
+          <div class="text-slate-300">|</div>
+          <div>目標答案: <span id="bubbleTargetGoal" class="text-rose-600 font-black text-base">10</span></div>
+          <div class="text-slate-300">|</div>
+          <button onclick="BubbleMode.resetSelection()" class="text-xs text-rose-500 underline font-bold">清除選擇</button>
+        </div>
+
+        <!-- Floating Bubbles Area -->
+        <div id="bubbleField" class="relative flex-grow w-full h-[340px] my-2"></div>
+
+        <!-- Bottom Controls -->
+        <div class="flex items-center justify-between text-xs text-slate-500 z-10 px-2">
+          <span>💡 提示：點擊兩顆數字泡泡使它們相加吻合目標！</span>
+          <button onclick="BubbleMode.refreshBubbles()" class="px-3 py-1 bg-white hover:bg-teal-50 border border-teal-300 text-teal-800 font-bold rounded-xl btn-comic shadow-sm">
+            🔄 換一批泡泡
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="w-full text-center py-4 text-xs font-medium text-slate-500">
+    <span>✨ 數學勇者大冒險 · PWA 離線支援 · 快樂學習、思維啟迪 ✨</span>
+  </footer>
+
+  <!-- ================= MODALS & POPUPS ================= -->
+
+  <!-- MODAL 1: ERROR REVIEW & FRIENDLY STEP-BY-STEP HINT -->
+  <div id="modalReview" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 border-4 border-amber-300 shadow-comic animate-bounce-soft relative">
+      <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center text-3xl mx-auto -mt-12 border-4 border-white shadow-comic-sm">
+        🧙‍♂️
+      </div>
+      <div class="text-center mt-3 mb-4">
+        <h3 class="text-xl font-black text-amber-900 font-bubble">智慧導師的解題祕笈！</h3>
+        <p class="text-xs text-slate-500 mt-0.5">沒關係，每一次嘗試都讓我們變得更強大！</p>
+      </div>
+
+      <div class="bg-amber-50 rounded-2xl p-4 border-2 border-amber-200 mb-4 space-y-2">
+        <div class="text-xs font-bold text-amber-800">題目：</div>
+        <div id="reviewQuestion" class="text-2xl font-black text-slate-800 font-bubble">--</div>
+        
+        <div class="pt-2 border-t border-amber-200 flex items-center justify-between">
+          <span class="text-xs font-bold text-slate-600">正確答案是：</span>
+          <span id="reviewCorrectAnswer" class="text-xl font-black text-emerald-600 font-bubble">--</span>
+        </div>
+      </div>
+
+      <div class="bg-indigo-50 rounded-2xl p-4 border-2 border-indigo-200 mb-5">
+        <div class="flex items-center gap-1.5 text-xs font-black text-indigo-900 mb-1.5">
+          <i class="ph-bold ph-lightbulb text-amber-500 text-sm"></i>
+          <span>逐步解說教學：</span>
+        </div>
+        <p id="reviewExplanation" class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">--</p>
+      </div>
+
+      <button onclick="App.closeReviewModal()" class="w-full py-3 bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black rounded-2xl shadow-comic btn-comic hover:from-amber-500 hover:to-orange-600 text-base">
+        我學會了，繼續挑戰！
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL 2: BADGES & ACHIEVEMENTS -->
+  <div id="modalBadges" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 border-4 border-purple-300 shadow-comic relative max-h-[85vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b-2 border-purple-100">
+        <div class="flex items-center gap-2">
+          <span class="text-3xl">🏅</span>
+          <div>
+            <h3 class="text-lg font-black text-purple-950 font-bubble">冒險英雄榮譽館</h3>
+            <p class="text-xs text-slate-500 font-medium">完成各項數學挑戰，解鎖稀有專屬勳章！</p>
+          </div>
+        </div>
+        <button onclick="App.closeBadgesModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 font-bold">
+          ✕
+        </button>
+      </div>
+
+      <div id="badgesListContainer" class="grid grid-cols-2 sm:grid-cols-3 gap-3 overflow-y-auto py-4 flex-grow pr-1"></div>
+
+      <div class="pt-3 border-t-2 border-purple-100 flex items-center justify-between text-xs text-slate-500">
+        <span>已解鎖：<span id="badgesUnlockedCount" class="font-black text-purple-600">0</span> / 6 個徽章</span>
+        <button onclick="App.closeBadgesModal()" class="px-4 py-2 bg-purple-600 text-white font-black rounded-xl btn-comic shadow-comic-sm">
+          太棒了
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: BATTLE VICTORY -->
+  <div id="modalStageClear" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 border-4 border-emerald-300 shadow-comic text-center animate-bounce-soft">
+      <div class="text-6xl mb-2">🎉</div>
+      <h3 class="text-2xl font-black text-emerald-800 font-bubble">擊敗守護魔物！</h3>
+      <p class="text-xs text-slate-500 mt-1">恭喜勇者成功通關，獲得豐厚獎勵！</p>
+
+      <div class="bg-emerald-50 rounded-2xl p-4 my-4 border-2 border-emerald-200 flex justify-around">
+        <div>
+          <div class="text-2xl">🪙 +<span id="rewardCoins">30</span></div>
+          <div class="text-[11px] font-bold text-emerald-700 mt-1">冒險金幣</div>
+        </div>
+        <div>
+          <div class="text-2xl">⭐ +<span id="rewardStars">1</span></div>
+          <div class="text-[11px] font-bold text-emerald-700 mt-1">榮譽之星</div>
+        </div>
+        <div>
+          <div class="text-2xl">✨ +<span id="rewardExp">50</span></div>
+          <div class="text-[11px] font-bold text-emerald-700 mt-1">經驗值</div>
+        </div>
+      </div>
+
+      <button onclick="BattleMode.nextStage()" class="w-full py-3 bg-gradient-to-r from-emerald-400 to-teal-500 text-white font-black rounded-2xl shadow-comic btn-comic hover:from-emerald-500 hover:to-teal-600 text-base">
+        挑戰下一層塔！
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL 4: SPEED MODE RESULT -->
+  <div id="modalSpeedResult" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 border-4 border-sky-300 shadow-comic text-center">
+      <div class="text-5xl mb-2" id="speedMedalIcon">🏆</div>
+      <h3 class="text-2xl font-black text-sky-900 font-bubble">60秒衝刺結算！</h3>
+      <p class="text-xs text-slate-500 mt-0.5" id="speedResultTitle">算術閃電俠！</p>
+
+      <div class="bg-sky-50 rounded-2xl p-4 my-4 border-2 border-sky-200 space-y-2">
+        <div class="flex justify-between items-center text-xs font-bold text-slate-600">
+          <span>最終得分：</span>
+          <span id="speedFinalScore" class="text-2xl font-black text-sky-600 font-bubble">0</span>
+        </div>
+        <div class="flex justify-between items-center text-xs font-bold text-slate-600">
+          <span>答對題數：</span>
+          <span id="speedFinalCorrect" class="text-base font-black text-emerald-600">0 題</span>
+        </div>
+        <div class="flex justify-between items-center text-xs font-bold text-slate-600">
+          <span>最高連勝：</span>
+          <span id="speedFinalMaxStreak" class="text-base font-black text-orange-500">0 連擊</span>
+        </div>
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="App.navigate('home')" class="flex-1 py-3 bg-slate-100 text-slate-700 font-black rounded-2xl border-2 border-slate-300 btn-comic">
+          返回大廳
+        </button>
+        <button onclick="App.startMode('speed')" class="flex-1 py-3 bg-gradient-to-r from-sky-400 to-blue-600 text-white font-black rounded-2xl shadow-comic btn-comic">
+          再衝一次！
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT APPLICATION CODE ================= -->
+  <script>
+    /* =========================================================
+       0. PWA AUTO-MANIFEST & INSTALL PROMPT LOGIC
+       ========================================================= */
+    const PWAInstaller = (function() {
+      let deferredPrompt = null;
+      const banner = document.getElementById('pwaInstallBanner');
+
+      // Check if external manifest.json exists, if not generate inline data URI manifest
+      fetch('./manifest.json', { method: 'HEAD' }).catch(() => {
+        const inlineManifest = {
+          name: "數學勇者大冒險",
+          short_name: "數學勇者",
+          start_url: "./",
+          display: "standalone",
+          background_color: "#2D3748",
+          theme_color: "#FF8811",
+          icons: [{
+            src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%23FF8811'/%3E%3Ctext x='256' y='320' font-size='200' text-anchor='middle'%3E🦊%3C/text%3E%3C/svg%3E",
+            sizes: "512x512",
+            type: "image/svg+xml"
+          }]
+        };
+        const stringManifest = JSON.stringify(inlineManifest);
+        const blob = new Blob([stringManifest], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(blob);
+        document.getElementById('manifestLink').setAttribute('href', manifestURL);
+      });
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (banner) banner.classList.remove('hidden');
+      });
+
+      return {
+        install() {
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === 'accepted') {
+                if (banner) banner.classList.add('hidden');
+              }
+              deferredPrompt = null;
+            });
+          }
+        },
+        dismiss() {
+          if (banner) banner.classList.add('hidden');
+        }
+      };
+    })();
+
+    // Register Service Worker if sw.js is hosted
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('ServiceWorker registered:', reg.scope))
+          .catch((err) => console.log('SW registration skipped or file not yet added:', err));
+      });
+    }
+
+    /* =========================================================
+       1. WEB AUDIO SYNTHESIZER SOUND ENGINE (NO EXTERNAL AUDIO)
+       ========================================================= */
+    const SoundEngine = (function() {
+      let audioCtx = null;
+      let isMuted = false;
+
+      function getContext() {
+        if (!audioCtx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) audioCtx = new AudioContext();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        return audioCtx;
+      }
+
+      function playTone(freq, type, duration, startTimeOffset = 0, gainLevel = 0.15) {
+        if (isMuted) return;
+        const ctx = getContext();
+        if (!ctx) return;
+
+        const osc = ctx.createOscillator();
+        const gainNode = ctx.createGain();
+
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + startTimeOffset);
+
+        gainNode.gain.setValueAtTime(gainLevel, ctx.currentTime + startTimeOffset);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + startTimeOffset + duration);
+
+        osc.connect(gainNode);
+        gainNode.connect(ctx.destination);
+
+        osc.start(ctx.currentTime + startTimeOffset);
+        osc.stop(ctx.currentTime + startTimeOffset + duration);
+      }
+
+      return {
+        toggleMute() {
+          isMuted = !isMuted;
+          const icon = document.getElementById('soundIcon');
+          if (icon) {
+            icon.className = isMuted ? 'ph-bold ph-speaker-slash text-rose-500' : 'ph-bold ph-speaker-high';
+          }
+        },
+        click() {
+          playTone(600, 'sine', 0.08, 0, 0.08);
+        },
+        correct() {
+          playTone(523.25, 'triangle', 0.1, 0.0, 0.15);
+          playTone(659.25, 'triangle', 0.1, 0.08, 0.15);
+          playTone(783.99, 'triangle', 0.1, 0.16, 0.18);
+          playTone(1046.50, 'triangle', 0.25, 0.24, 0.22);
+        },
+        wrong() {
+          playTone(220, 'sawtooth', 0.15, 0, 0.12);
+          playTone(180, 'sawtooth', 0.25, 0.15, 0.12);
+        },
+        attack() {
+          playTone(800, 'square', 0.05, 0, 0.09);
+          playTone(320, 'triangle', 0.12, 0.04, 0.15);
+        },
+        superAttack() {
+          playTone(400, 'sawtooth', 0.2, 0, 0.2);
+          playTone(880, 'triangle', 0.2, 0.1, 0.25);
+          playTone(1320, 'triangle', 0.35, 0.2, 0.3);
+        },
+        pop() {
+          playTone(950, 'sine', 0.07, 0, 0.18);
+        },
+        levelUp() {
+          const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+          notes.forEach((freq, i) => {
+            playTone(freq, 'triangle', 0.2, i * 0.1, 0.2);
+          });
+        }
+      };
+    })();
+
+    /* =========================================================
+       2. CONFETTI & PARTICLES
+       ========================================================= */
+    const Confetti = (function() {
+      const canvas = document.getElementById('confettiCanvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let animationId = null;
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      class Particle {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+          this.size = Math.random() * 8 + 6;
+          this.speedX = (Math.random() - 0.5) * 12;
+          this.speedY = Math.random() * -12 - 4;
+          this.gravity = 0.35;
+          this.rotation = Math.random() * 360;
+          this.rotationSpeed = (Math.random() - 0.5) * 10;
+          const colors = ['#FFD12E', '#FF8811', '#FF4785', '#7952F5', '#2B8CFF', '#2AD283'];
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.life = 100;
+        }
+        update() {
+          this.speedY += this.gravity;
+          this.x += this.speedX;
+          this.y += this.speedY;
+          this.rotation += this.rotationSpeed;
+          this.life -= 1.2;
+        }
+        draw() {
+          ctx.save();
+          ctx.translate(this.x, this.y);
+          ctx.rotate((this.rotation * Math.PI) / 180);
+          ctx.fillStyle = this.color;
+          ctx.globalAlpha = Math.max(0, this.life / 100);
+          ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+          ctx.restore();
+        }
+      }
+
+      function loop() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.update();
+          p.draw();
+          if (p.life <= 0 || p.y > canvas.height + 50) {
+            particles.splice(i, 1);
+          }
+        }
+        if (particles.length > 0) {
+          animationId = requestAnimationFrame(loop);
+        } else {
+          cancelAnimationFrame(animationId);
+          animationId = null;
+        }
+      }
+
+      return {
+        burst(x = window.innerWidth / 2, y = window.innerHeight / 2, count = 60) {
+          for (let i = 0; i < count; i++) {
+            particles.push(new Particle(x, y));
+          }
+          if (!animationId) loop();
+        }
+      };
+    })();
+
+    /* =========================================================
+       3. CURRICULUM & QUESTION GENERATOR
+       ========================================================= */
+    const MathEngine = {
+      randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      },
+
+      generateQuestion(grade) {
+        if (grade === 'p12') return this.generateP12();
+        if (grade === 'p34') return this.generateP34();
+        return this.generateP56();
+      },
+
+      generateP12() {
+        const type = this.randomInt(1, 4);
+        if (type === 1) {
+          const a = this.randomInt(2, 14);
+          const b = this.randomInt(1, 20 - a);
+          const ans = a + b;
+          return {
+            text: `${a} + ${b} = ?`,
+            correct: ans,
+            options: this.makeOptions(ans, 1, 20),
+            hint: `可以從 ${a} 往後連續數 ${b} 個數字：${Array.from({length: b}, (_, i) => a + i + 1).join(', ')}，答案是 ${ans}！`,
+            visual: `🍎 代表數量：${a} 個加上 ${b} 個`
+          };
+        } else if (type === 2) {
+          const a = this.randomInt(6, 20);
+          const b = this.randomInt(1, a - 1);
+          const ans = a - b;
+          return {
+            text: `${a} - ${b} = ?`,
+            correct: ans,
+            options: this.makeOptions(ans, 1, 20),
+            hint: `從 ${a} 往前倒數 ${b} 步，剩下的數量就是 ${ans}！`,
+            visual: `🍬 總共 ${a} 顆，吃掉 ${b} 顆`
+          };
+        } else if (type === 3) {
+          const tensA = this.randomInt(1, 7) * 10;
+          const tensB = this.randomInt(1, 9 - tensA / 10) * 10;
+          const ans = tensA + tensB;
+          return {
+            text: `${tensA} + ${tensB} = ?`,
+            correct: ans,
+            options: this.makeOptions(ans, 10, 100, 10),
+            hint: `${tensA / 10} 個十 加上 ${tensB / 10} 個十，等於 ${(tensA + tensB) / 10} 個十，也就是 ${ans}！`,
+            visual: `📦 整十相加：${tensA / 10} + ${tensB / 10} = ${(tensA + tensB) / 10}`
+          };
+        } else {
+          const a = this.randomInt(10, 95);
+          const offset = this.randomInt(1, 15);
+          const b = Math.random() > 0.5 ? a + offset : a - offset;
+          const isGreater = a > b;
+          const correctSymbol = isGreater ? '>' : '<';
+          return {
+            text: `${a}  ◯  ${b}`,
+            correct: correctSymbol,
+            options: ['>', '<', '='],
+            hint: `比較 ${a} 與 ${b}，因為 ${a} ${isGreater ? '大於' : '小於'} ${b}，所以要填入「${correctSymbol}」！`,
+            visual: `開口朝向比較大的數！`
+          };
+        }
+      },
+
+      generateP34() {
+        const type = this.randomInt(1, 3);
+        if (type === 1) {
+          const a = this.randomInt(2, 9);
+          const b = this.randomInt(2, 9);
+          const ans = a * b;
+          return {
+            text: `${a} × ${b} = ?`,
+            correct: ans,
+            options: this.makeOptions(ans, 4, 81),
+            hint: `九九乘法口訣：「${a} 乘以 ${b} 等於 ${ans}」，也就是 ${b} 個 ${a} 相加之和！`,
+            visual: `${a} + `.repeat(b - 1) + `${a} = ${ans}`
+          };
+        } else if (type === 2) {
+          const b = this.randomInt(2, 9);
+          const ans = this.randomInt(2, 10);
+          const a = b * ans;
+          return {
+            text: `${a} ÷ ${b} = ?`,
+            correct: ans,
+            options: this.makeOptions(ans, 1, 12),
+            hint: `乘法的逆運算：想想「哪一個數」乘以 ${b} 等於 ${a}？ 因為 ${ans} × ${b} = ${a}，所以答案是 ${ans}！`,
+            visual: `把 ${a} 平分成 ${b} 份，每份有 ${ans}`
+          };
+        } else {
+          const a = this.randomInt(2, 8);
+          const b = this.randomInt(2, 6);
+          const c = this.randomInt(3, 20);
+          const ans = a * b + c;
+          return {
+            text: `${a} × ${b} + ${c} = ?`,
+            correct: ans,
+            options: this.makeOptions(ans, 10, 80),
+            hint: `記得運算順序「先乘除，後加減」！先算乘法：${a} × ${b} = ${a * b}；再算加法：${a * b} + ${c} = ${ans}！`,
+            visual: `先乘後加：${a * b} + ${c} = ${ans}`
+          };
+        }
+      },
+
+      generateP56() {
+        const type = this.randomInt(1, 3);
+        if (type === 1) {
+          const a = this.randomInt(30, 70);
+          const b = this.randomInt(3, 8);
+          const c = this.randomInt(2, 5);
+          const ans = a - (b * c);
+          return {
+            text: `${a} - ${b} × ${c} = ?`,
+            correct: ans,
+            options: this.makeOptions(ans, 0, 70),
+            hint: `切記「先乘除，後加減」！先算乘法：${b} × ${c} = ${b * c}；再進行減法：${a} - ${b * c} = ${ans}！`,
+            visual: `先算 ${b} × ${c} = ${b * c} ➔ 再算 ${a} - ${b * c} = ${ans}`
+          };
+        } else if (type === 2) {
+          const denom = this.randomInt(4, 12);
+          const numA = this.randomInt(1, denom - 2);
+          const numB = this.randomInt(1, denom - numA);
+          const sumNum = numA + numB;
+          return {
+            text: `${numA}/${denom} + ${numB}/${denom} = ?`,
+            correct: `${sumNum}/${denom}`,
+            options: this.makeFractionOptions(sumNum, denom),
+            hint: `同分母分數相加時，分母保持不變（依然是 ${denom}），只需要把分子相加：${numA} + ${numB} = ${sumNum}，所以答案是 ${sumNum}/${denom}！`,
+            visual: `分子相加: ${numA} + ${numB} = ${sumNum}；分母不變`
+          };
+        } else {
+          const a = (this.randomInt(12, 65) / 10);
+          const b = (this.randomInt(11, 40) / 10);
+          const ans = parseFloat((a + b).toFixed(1));
+          return {
+            text: `${a} + ${b} = ?`,
+            correct: ans,
+            options: [
+              ans,
+              parseFloat((ans + 0.1).toFixed(1)),
+              parseFloat((ans - 0.2).toFixed(1)),
+              parseFloat((ans + 1.0).toFixed(1))
+            ].sort(() => Math.random() - 0.5),
+            hint: `小數加法重要口訣是「小數點對齊」！對齊後由右至左計算，${a} + ${b} = ${ans}！`,
+            visual: `直式計算對齊小數點`
+          };
+        }
+      },
+
+      makeOptions(correct, minVal, maxVal, step = 1) {
+        const set = new Set([correct]);
+        while (set.size < 4) {
+          let delta = (this.randomInt(-4, 4) || 2) * step;
+          let candidate = correct + delta;
+          if (candidate >= minVal && candidate <= maxVal) {
+            set.add(candidate);
+          } else {
+            set.add(this.randomInt(minVal, maxVal));
+          }
+        }
+        return Array.from(set).sort(() => Math.random() - 0.5);
+      },
+
+      makeFractionOptions(num, denom) {
+        const correct = `${num}/${denom}`;
+        const set = new Set([correct]);
+        set.add(`${num + 1}/${denom}`);
+        if (num > 1) set.add(`${num - 1}/${denom}`);
+        else set.add(`${num + 2}/${denom}`);
+        set.add(`${num}/${denom + 1}`);
+        return Array.from(set).sort(() => Math.random() - 0.5);
+      }
+    };
+
+    /* =========================================================
+       4. GLOBAL APP STATE & PERSISTENCE
+       ========================================================= */
+    const App = {
+      state: {
+        heroAvatar: '🦊',
+        grade: 'p12',
+        level: 1,
+        exp: 15,
+        maxExp: 100,
+        coins: 40,
+        stars: 3,
+        monstersBeaten: 0,
+        correctTotal: 0,
+        currentMode: 'home',
+        badges: ['starter']
+      },
+
+      avatars: ['🦊', '🐱', '🐼', '🦁', '🦄', '🐰', '🐸', '🐨'],
+
+      badgesConfig: [
+        { id: 'starter', name: '勇者初出茅廬', icon: '🌱', desc: '踏上數學冒險島的第一步' },
+        { id: 'streak5', name: '連勝神童', icon: '🔥', desc: '在冒險中達成連續 5 題正確' },
+        { id: 'mult_master', name: '九九乘法大師', icon: '⚡', desc: '在中小難度答對 10 道乘除題目' },
+        { id: 'speed_demon', name: '速算閃電俠', icon: '⚡', desc: '在限時極速挑戰中獲得 300 分以上' },
+        { id: 'monster_slayer', name: '王國守護者', icon: '👑', desc: '擊敗超過 5 隻冒險怪物' },
+        { id: 'bubble_popper', name: '泡泡大師', icon: '🫧', desc: '在泡泡消消樂消除超過 10 組泡泡' }
+      ],
+
+      init() {
+        this.loadState();
+        this.updateHeaderUI();
+        this.setGrade(this.state.grade, false);
+      },
+
+      saveState() {
+        try {
+          localStorage.setItem('math_hero_save_v1', JSON.stringify(this.state));
+        } catch (e) {
+          console.warn('LocalStorage save error', e);
+        }
+      },
+
+      loadState() {
+        try {
+          const saved = localStorage.getItem('math_hero_save_v1');
+          if (saved) {
+            this.state = Object.assign(this.state, JSON.parse(saved));
+          }
+        } catch (e) {
+          console.warn('LocalStorage load error', e);
+        }
+      },
+
+      updateHeaderUI() {
+        document.getElementById('navHeroAvatar').innerText = this.state.heroAvatar;
+        document.getElementById('heroAvatarDisplay').innerText = this.state.heroAvatar;
+        document.getElementById('navHeroLevel').innerText = `Lv.${this.state.level}`;
+        document.getElementById('navCoins').innerText = this.state.coins;
+        document.getElementById('navStars').innerText = this.state.stars;
+        document.getElementById('statMonstersBeaten').innerText = this.state.monstersBeaten;
+        document.getElementById('statCorrectTotal').innerText = this.state.correctTotal;
+
+        const pct = Math.min(100, Math.floor((this.state.exp / this.state.maxExp) * 100));
+        document.getElementById('navExpBar').style.width = `${pct}%`;
+
+        const gradeText = { p12: '初小 (P1-P2)', p34: '中小 (P3-P4)', p56: '高小 (P5-P6)' };
+        document.getElementById('navGradeBadge').innerText = gradeText[this.state.grade] || '初小';
+
+        let title = '初級魔法學徒';
+        if (this.state.level >= 5) title = '精英算術騎士';
+        if (this.state.level >= 10) title = '傳奇數學大法師';
+        document.getElementById('heroTitleBadge').innerText = title;
+      },
+
+      addExp(amount) {
+        this.state.exp += amount;
+        if (this.state.exp >= this.state.maxExp) {
+          this.state.exp -= this.state.maxExp;
+          this.state.level += 1;
+          this.state.maxExp = Math.floor(this.state.maxExp * 1.35);
+          SoundEngine.levelUp();
+          Confetti.burst(window.innerWidth / 2, window.innerHeight / 3, 80);
+        }
+        this.updateHeaderUI();
+        this.saveState();
+      },
+
+      addRewards(coins, stars, exp) {
+        this.state.coins += coins;
+        this.state.stars += stars;
+        this.addExp(exp);
+      },
+
+      checkUnlockBadge(badgeId) {
+        if (!this.state.badges.includes(badgeId)) {
+          this.state.badges.push(badgeId);
+          this.saveState();
+          Confetti.burst(window.innerWidth / 2, window.innerHeight / 2, 70);
+          SoundEngine.levelUp();
+        }
+      },
+
+      changeAvatar() {
+        SoundEngine.click();
+        const curIdx = this.avatars.indexOf(this.state.heroAvatar);
+        const nextIdx = (curIdx + 1) % this.avatars.length;
+        this.state.heroAvatar = this.avatars[nextIdx];
+        this.updateHeaderUI();
+        this.saveState();
+      },
+
+      setGrade(grade, playSound = true) {
+        if (playSound) SoundEngine.click();
+        this.state.grade = grade;
+        this.saveState();
+
+        ['p12', 'p34', 'p56'].forEach(g => {
+          const el = document.getElementById(`gradeCard_${g}`);
+          if (!el) return;
+          if (g === grade) {
+            el.className = 'grade-selector text-left p-4 rounded-2xl border-3 border-indigo-500 bg-indigo-50/80 relative transition btn-comic shadow-comic ring-4 ring-indigo-200';
+          } else {
+            el.className = 'grade-selector text-left p-4 rounded-2xl border-3 border-slate-200 bg-white relative transition btn-comic shadow-comic-sm hover:border-indigo-300';
+          }
+        });
+        this.updateHeaderUI();
+      },
+
+      navigate(viewName) {
+        SoundEngine.click();
+        this.state.currentMode = viewName;
+        ['viewHome', 'viewBattle', 'viewSpeed', 'viewBubble'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.classList.add('hidden');
+        });
+
+        if (viewName === 'home') {
+          document.getElementById('viewHome').classList.remove('hidden');
+          this.updateHeaderUI();
+        }
+      },
+
+      startMode(mode) {
+        SoundEngine.click();
+        this.navigate(mode);
+
+        if (mode === 'battle') {
+          document.getElementById('viewBattle').classList.remove('hidden');
+          BattleMode.start();
+        } else if (mode === 'speed') {
+          document.getElementById('viewSpeed').classList.remove('hidden');
+          SpeedMode.start();
+        } else if (mode === 'bubble') {
+          document.getElementById('viewBubble').classList.remove('hidden');
+          BubbleMode.start();
+        }
+      },
+
+      openBadgesModal() {
+        SoundEngine.click();
+        const container = document.getElementById('badgesListContainer');
+        container.innerHTML = '';
+
+        let unlockedCount = 0;
+        this.badgesConfig.forEach(b => {
+          const isUnlocked = this.state.badges.includes(b.id);
+          if (isUnlocked) unlockedCount++;
+
+          const div = document.createElement('div');
+          div.className = `p-3 rounded-2xl border-2 text-center transition flex flex-col items-center justify-center ${
+            isUnlocked 
+              ? 'bg-purple-50 border-purple-300 text-purple-900 shadow-comic-sm' 
+              : 'bg-slate-100 border-slate-200 text-slate-400 opacity-60'
+          }`;
+          div.innerHTML = `
+            <div class="text-3xl mb-1 filter ${isUnlocked ? '' : 'grayscale'}">${b.icon}</div>
+            <div class="text-xs font-black font-bubble">${b.name}</div>
+            <div class="text-[10px] text-slate-500 mt-0.5 leading-tight">${b.desc}</div>
+            <span class="mt-2 text-[10px] font-bold px-2 py-0.5 rounded-full ${
+              isUnlocked ? 'bg-purple-200 text-purple-800' : 'bg-slate-200 text-slate-500'
+            }">
+              ${isUnlocked ? '已獲得' : '未解鎖'}
+            </span>
+          `;
+          container.appendChild(div);
+        });
+
+        document.getElementById('badgesUnlockedCount').innerText = unlockedCount;
+        document.getElementById('modalBadges').classList.remove('hidden');
+      },
+
+      closeBadgesModal() {
+        SoundEngine.click();
+        document.getElementById('modalBadges').classList.add('hidden');
+      },
+
+      showReviewModal(question, correctAns, explanation) {
+        SoundEngine.wrong();
+        document.getElementById('reviewQuestion').innerText = question;
+        document.getElementById('reviewCorrectAnswer').innerText = correctAns;
+        document.getElementById('reviewExplanation').innerText = explanation;
+        document.getElementById('modalReview').classList.remove('hidden');
+      },
+
+      closeReviewModal() {
+        SoundEngine.click();
+        document.getElementById('modalReview').classList.add('hidden');
+        if (this.state.currentMode === 'battle') {
+          BattleMode.nextQuestion();
+        } else if (this.state.currentMode === 'speed') {
+          SpeedMode.nextQuestion();
+        }
+      }
+    };
+
+    /* =========================================================
+       5. GAME MODE 1: 怪物打倒塔 (RPG BATTLE)
+       ========================================================= */
+    const BattleMode = {
+      floor: 1,
+      monsterHp: 60,
+      monsterMaxHp: 60,
+      heroHearts: 3,
+      combo: 0,
+      superCharge: 0,
+      currentQ: null,
+
+      monsters: [
+        { name: '草地史萊姆', sprite: '🟢', hp: 50 },
+        { name: '蘑菇淘氣鬼', sprite: '🍄', hp: 70 },
+        { name: '火焰巨蜥', sprite: '🦎', hp: 90 },
+        { name: '雪山冰霜怪', sprite: '⛄', hp: 110 },
+        { name: '數學機械喵', sprite: '🤖', hp: 130 },
+        { name: '深淵數論大魔王', sprite: '👹', hp: 160 }
+      ],
+
+      start() {
+        this.floor = 1;
+        this.heroHearts = 3;
+        this.combo = 0;
+        this.superCharge = 0;
+        this.initStage();
+      },
+
+      initStage() {
+        const monsterIdx = Math.min(this.floor - 1, this.monsters.length - 1);
+        const m = this.monsters[monsterIdx];
+        this.monsterMaxHp = m.hp + (this.floor - 1) * 20;
+        this.monsterHp = this.monsterMaxHp;
+
+        document.getElementById('battleFloorLabel').innerText = `🏰 冒險塔 第 ${this.floor} 層`;
+        document.getElementById('battleMonsterName').innerText = m.name;
+        document.getElementById('battleMonsterSprite').innerText = m.sprite;
+
+        this.updateHpBars();
+        this.renderHearts();
+        this.nextQuestion();
+      },
+
+      renderHearts() {
+        const container = document.getElementById('battleHeartsContainer');
+        container.innerHTML = '';
+        for (let i = 0; i < 3; i++) {
+          const heart = document.createElement('span');
+          heart.className = `text-lg transition-transform ${i < this.heroHearts ? 'text-red-500' : 'text-slate-300'}`;
+          heart.innerText = i < this.heroHearts ? '❤️' : '🤍';
+          container.appendChild(heart);
+        }
+      },
+
+      updateHpBars() {
+        const pct = Math.max(0, Math.floor((this.monsterHp / this.monsterMaxHp) * 100));
+        document.getElementById('battleMonsterHpBar').style.width = `${pct}%`;
+        document.getElementById('battleMonsterHpText').innerText = `${this.monsterHp} / ${this.monsterMaxHp}`;
+
+        const superPct = Math.min(100, this.superCharge);
+        document.getElementById('battleSuperBar').style.width = `${superPct}%`;
+        const superBtn = document.getElementById('battleSuperBtn');
+        if (superPct >= 100) {
+          superBtn.disabled = false;
+          superBtn.classList.add('animate-pulse');
+        } else {
+          superBtn.disabled = true;
+          superBtn.classList.remove('animate-pulse');
+        }
+
+        document.getElementById('battleComboText').innerText = this.combo;
+      },
+
+      nextQuestion() {
+        this.currentQ = MathEngine.generateQuestion(App.state.grade);
+        document.getElementById('battleQuestionText').innerText = this.currentQ.text;
+        
+        const visualEl = document.getElementById('battleQuestionVisual');
+        if (this.currentQ.visual) {
+          visualEl.innerText = this.currentQ.visual;
+          visualEl.classList.remove('hidden');
+        } else {
+          visualEl.classList.add('hidden');
+        }
+
+        const grid = document.getElementById('battleOptionsGrid');
+        grid.innerHTML = '';
+
+        this.currentQ.options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'py-4 px-3 bg-gradient-to-b from-indigo-50 to-indigo-100 hover:from-indigo-100 hover:to-indigo-200 border-3 border-indigo-300 text-indigo-950 font-black rounded-2xl text-xl sm:text-2xl font-bubble shadow-comic-sm btn-comic transition flex items-center justify-center';
+          btn.innerText = opt;
+          btn.onclick = () => this.handleAnswer(opt, btn);
+          grid.appendChild(btn);
+        });
+      },
+
+      handleAnswer(selected) {
+        const isCorrect = String(selected) === String(this.currentQ.correct);
+
+        if (isCorrect) {
+          SoundEngine.correct();
+          SoundEngine.attack();
+          this.combo++;
+          App.state.correctTotal++;
+          if (this.combo >= 5) App.checkUnlockBadge('streak5');
+          if (App.state.grade === 'p34') App.checkUnlockBadge('mult_master');
+
+          this.superCharge = Math.min(100, this.superCharge + 25);
+          this.animateMonsterHit(30);
+
+          this.monsterHp = Math.max(0, this.monsterHp - 30);
+          this.updateHpBars();
+
+          if (this.monsterHp <= 0) {
+            setTimeout(() => this.stageVictory(), 400);
+          } else {
+            setTimeout(() => this.nextQuestion(), 500);
+          }
+        } else {
+          this.combo = 0;
+          this.heroHearts--;
+          this.renderHearts();
+          this.updateHpBars();
+
+          const arena = document.getElementById('viewBattle');
+          arena.classList.add('animate-shake');
+          setTimeout(() => arena.classList.remove('animate-shake'), 400);
+
+          if (this.heroHearts <= 0) {
+            setTimeout(() => {
+              App.showReviewModal(
+                this.currentQ.text,
+                this.currentQ.correct,
+                `體力耗盡！但每一次挑戰都讓你累積了強大的算術直覺！\n\n【解題技巧】: ${this.currentQ.hint}`
+              );
+              this.heroHearts = 3;
+              this.renderHearts();
+            }, 300);
+          } else {
+            setTimeout(() => {
+              App.showReviewModal(
+                this.currentQ.text,
+                this.currentQ.correct,
+                this.currentQ.hint
+              );
+            }, 300);
+          }
+        }
+      },
+
+      triggerSuperAttack() {
+        if (this.superCharge < 100) return;
+        SoundEngine.superAttack();
+        this.superCharge = 0;
+        this.animateMonsterHit(80);
+        this.monsterHp = Math.max(0, this.monsterHp - 80);
+        this.updateHpBars();
+
+        Confetti.burst(window.innerWidth / 2, window.innerHeight / 2.5, 50);
+
+        if (this.monsterHp <= 0) {
+          setTimeout(() => this.stageVictory(), 400);
+        }
+      },
+
+      animateMonsterHit(dmg) {
+        const sprite = document.getElementById('battleMonsterSprite');
+        const slash = document.getElementById('battleSlashFx');
+        const dmgText = document.getElementById('battleDamageText');
+
+        slash.classList.remove('hidden');
+        slash.classList.add('attack-slash');
+
+        dmgText.innerText = `-${dmg}!`;
+        dmgText.classList.remove('hidden');
+        sprite.classList.add('animate-shake');
+
+        setTimeout(() => {
+          slash.classList.remove('attack-slash');
+          slash.classList.add('hidden');
+          dmgText.classList.add('hidden');
+          sprite.classList.remove('animate-shake');
+        }, 450);
+      },
+
+      stageVictory() {
+        SoundEngine.levelUp();
+        Confetti.burst(window.innerWidth / 2, window.innerHeight / 2, 80);
+
+        App.state.monstersBeaten++;
+        if (App.state.monstersBeaten >= 5) {
+          App.checkUnlockBadge('monster_slayer');
+        }
+
+        const earnCoins = 25 + this.floor * 10;
+        const earnStars = 1;
+        const earnExp = 40 + this.floor * 15;
+
+        document.getElementById('rewardCoins').innerText = earnCoins;
+        document.getElementById('rewardStars').innerText = earnStars;
+        document.getElementById('rewardExp').innerText = earnExp;
+
+        App.addRewards(earnCoins, earnStars, earnExp);
+        document.getElementById('modalStageClear').classList.remove('hidden');
+      },
+
+      nextStage() {
+        SoundEngine.click();
+        document.getElementById('modalStageClear').classList.add('hidden');
+        this.floor++;
+        this.initStage();
+      }
+    };
+
+    /* =========================================================
+       6. GAME MODE 2: 限時極速挑戰 (SPEED BLITZ)
+       ========================================================= */
+    const SpeedMode = {
+      timeLeft: 60,
+      timerId: null,
+      score: 0,
+      streak: 0,
+      maxStreak: 0,
+      correctCount: 0,
+      currentQ: null,
+
+      start() {
+        this.timeLeft = 60;
+        this.score = 0;
+        this.streak = 0;
+        this.maxStreak = 0;
+        this.correctCount = 0;
+
+        document.getElementById('speedScoreText').innerText = '0';
+        document.getElementById('speedTimerNum').innerText = '60';
+        document.getElementById('speedTimeBar').style.width = '100%';
+        document.getElementById('speedStreakText').innerText = '0';
+        document.getElementById('speedMultiplierText').innerText = 'x1.0';
+
+        clearInterval(this.timerId);
+        this.timerId = setInterval(() => this.tick(), 1000);
+        this.nextQuestion();
+      },
+
+      tick() {
+        this.timeLeft--;
+        document.getElementById('speedTimerNum').innerText = this.timeLeft;
+        const pct = (this.timeLeft / 60) * 100;
+        document.getElementById('speedTimeBar').style.width = `${pct}%`;
+
+        if (this.timeLeft <= 0) {
+          this.endGame();
+        }
+      },
+
+      nextQuestion() {
+        this.currentQ = MathEngine.generateQuestion(App.state.grade);
+        document.getElementById('speedQuestionText').innerText = this.currentQ.text;
+
+        const grid = document.getElementById('speedOptionsGrid');
+        grid.innerHTML = '';
+
+        this.currentQ.options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'py-4 px-2 bg-gradient-to-b from-sky-50 to-blue-100 hover:from-sky-100 hover:to-blue-200 border-3 border-sky-300 text-sky-950 font-black rounded-2xl text-2xl font-bubble shadow-comic-sm btn-comic transition';
+          btn.innerText = opt;
+          btn.onclick = () => this.handleAnswer(opt);
+          grid.appendChild(btn);
+        });
+      },
+
+      handleAnswer(selected) {
+        const isCorrect = String(selected) === String(this.currentQ.correct);
+
+        if (isCorrect) {
+          SoundEngine.correct();
+          this.correctCount++;
+          this.streak++;
+          if (this.streak > this.maxStreak) this.maxStreak = this.streak;
+
+          App.state.correctTotal++;
+
+          let mult = 1.0;
+          if (this.streak >= 3) mult = 1.5;
+          if (this.streak >= 6) mult = 2.0;
+          if (this.streak >= 10) mult = 2.5;
+
+          const points = Math.round(20 * mult);
+          this.score += points;
+
+          document.getElementById('speedScoreText').innerText = this.score;
+          document.getElementById('speedStreakText').innerText = this.streak;
+          document.getElementById('speedMultiplierText').innerText = `x${mult.toFixed(1)}`;
+
+          this.nextQuestion();
+        } else {
+          SoundEngine.wrong();
+          this.streak = 0;
+          document.getElementById('speedStreakText').innerText = '0';
+          document.getElementById('speedMultiplierText').innerText = 'x1.0';
+
+          App.showReviewModal(
+            this.currentQ.text,
+            this.currentQ.correct,
+            this.currentQ.hint
+          );
+        }
+      },
+
+      endGame() {
+        clearInterval(this.timerId);
+        SoundEngine.levelUp();
+        Confetti.burst(window.innerWidth / 2, window.innerHeight / 2, 70);
+
+        if (this.score >= 300) {
+          App.checkUnlockBadge('speed_demon');
+        }
+
+        document.getElementById('speedFinalScore').innerText = this.score;
+        document.getElementById('speedFinalCorrect').innerText = `${this.correctCount} 題`;
+        document.getElementById('speedFinalMaxStreak').innerText = `${this.maxStreak} 連擊`;
+
+        const coinsEarned = Math.round(this.score / 5);
+        const expEarned = Math.round(this.score / 4);
+        App.addRewards(coinsEarned, this.score > 200 ? 2 : 1, expEarned);
+
+        document.getElementById('modalSpeedResult').classList.remove('hidden');
+      },
+
+      quit() {
+        clearInterval(this.timerId);
+        App.navigate('home');
+      }
+    };
+
+    /* =========================================================
+       7. GAME MODE 3: 泡泡消除 (BUBBLE POP MATCHING)
+       ========================================================= */
+    const BubbleMode = {
+      target: 10,
+      score: 0,
+      firstSelectedBubble: null,
+      bubbles: [],
+
+      start() {
+        this.score = 0;
+        this.firstSelectedBubble = null;
+        document.getElementById('bubbleScoreText').innerText = '0';
+        this.resetSelection();
+        this.newMission();
+      },
+
+      newMission() {
+        if (App.state.grade === 'p12') {
+          this.target = MathEngine.randomInt(8, 20);
+        } else if (App.state.grade === 'p34') {
+          this.target = MathEngine.randomInt(18, 50);
+        } else {
+          this.target = MathEngine.randomInt(30, 99);
+        }
+
+        document.getElementById('bubbleTargetGoal').innerText = this.target;
+        document.getElementById('bubbleMissionPrompt').innerHTML = `
+          點擊相加等於 <span class="text-rose-500 text-lg font-black">${this.target}</span> 的兩顆泡泡！
+        `;
+        this.generateBubbles();
+      },
+
+      generateBubbles() {
+        const field = document.getElementById('bubbleField');
+        field.innerHTML = '';
+        this.bubbles = [];
+
+        const pairA1 = MathEngine.randomInt(1, this.target - 1);
+        const pairA2 = this.target - pairA1;
+
+        const pairB1 = MathEngine.randomInt(1, this.target - 1);
+        const pairB2 = this.target - pairB1;
+
+        const numbers = [pairA1, pairA2, pairB1, pairB2];
+
+        while (numbers.length < 8) {
+          numbers.push(MathEngine.randomInt(1, this.target + 5));
+        }
+
+        numbers.sort(() => Math.random() - 0.5);
+
+        const colors = [
+          'bg-gradient-to-tr from-pink-400 to-rose-300 border-pink-200 text-white',
+          'bg-gradient-to-tr from-sky-400 to-cyan-300 border-sky-200 text-white',
+          'bg-gradient-to-tr from-amber-400 to-yellow-300 border-yellow-200 text-yellow-950',
+          'bg-gradient-to-tr from-emerald-400 to-teal-300 border-teal-200 text-white',
+          'bg-gradient-to-tr from-purple-400 to-indigo-300 border-purple-200 text-white'
+        ];
+
+        numbers.forEach((num, index) => {
+          const bubble = document.createElement('div');
+          const colorClass = colors[index % colors.length];
+          bubble.className = `bubble-item absolute w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center font-bubble font-black text-2xl sm:text-3xl border-4 shadow-comic-sm ${colorClass}`;
+          bubble.innerText = num;
+          bubble.dataset.value = num;
+
+          const col = index % 4;
+          const row = Math.floor(index / 4);
+          const leftPct = 6 + col * 23 + (Math.random() * 3);
+          const topPct = 8 + row * 46 + (Math.random() * 6);
+
+          bubble.style.left = `${leftPct}%`;
+          bubble.style.top = `${topPct}%`;
+
+          bubble.onclick = () => this.handleBubbleClick(bubble);
+          field.appendChild(bubble);
+          this.bubbles.push(bubble);
+        });
+      },
+
+      handleBubbleClick(bubbleEl) {
+        SoundEngine.pop();
+
+        if (!this.firstSelectedBubble) {
+          this.firstSelectedBubble = bubbleEl;
+          bubbleEl.classList.add('ring-4', 'ring-amber-400', 'scale-110');
+          document.getElementById('bubbleFirstSelected').innerText = bubbleEl.dataset.value;
+        } else {
+          if (this.firstSelectedBubble === bubbleEl) {
+            this.resetSelection();
+            return;
+          }
+
+          const val1 = parseInt(this.firstSelectedBubble.dataset.value, 10);
+          const val2 = parseInt(bubbleEl.dataset.value, 10);
+
+          if (val1 + val2 === this.target) {
+            SoundEngine.correct();
+            Confetti.burst(
+              bubbleEl.getBoundingClientRect().left + 40,
+              bubbleEl.getBoundingClientRect().top + 40,
+              30
+            );
+
+            this.firstSelectedBubble.style.transform = 'scale(0)';
+            this.firstSelectedBubble.style.opacity = '0';
+            bubbleEl.style.transform = 'scale(0)';
+            bubbleEl.style.opacity = '0';
+
+            const firstNode = this.firstSelectedBubble;
+            setTimeout(() => {
+              firstNode.remove();
+              bubbleEl.remove();
+            }, 250);
+
+            this.score += 2;
+            document.getElementById('bubbleScoreText').innerText = this.score;
+            App.state.correctTotal += 2;
+            App.addRewards(10, 0, 15);
+
+            if (this.score >= 10) {
+              App.checkUnlockBadge('bubble_popper');
+            }
+
+            this.resetSelection();
+
+            setTimeout(() => {
+              const remaining = document.querySelectorAll('#bubbleField .bubble-item');
+              if (remaining.length <= 2) {
+                this.newMission();
+              }
+            }, 300);
+          } else {
+            SoundEngine.wrong();
+            this.firstSelectedBubble.classList.add('animate-shake');
+            bubbleEl.classList.add('animate-shake');
+
+            setTimeout(() => {
+              if (this.firstSelectedBubble) {
+                this.firstSelectedBubble.classList.remove('animate-shake');
+              }
+              bubbleEl.classList.remove('animate-shake');
+              this.resetSelection();
+            }, 400);
+          }
+        }
+      },
+
+      resetSelection() {
+        if (this.firstSelectedBubble) {
+          this.firstSelectedBubble.classList.remove('ring-4', 'ring-amber-400', 'scale-110');
+        }
+        this.firstSelectedBubble = null;
+        document.getElementById('bubbleFirstSelected').innerText = '-';
+      },
+
+      refreshBubbles() {
+        SoundEngine.click();
+        this.resetSelection();
+        this.newMission();
+      },
+
+      quit() {
+        App.navigate('home');
+      }
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      App.init();
+    });
+  </script>
+</body>
+</html>
